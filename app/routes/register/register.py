@@ -49,6 +49,6 @@ def check_username():
     existing_user = users.query.filter_by(user_name=user).first()
 
     if existing_user:
-        return jsonify({'exists': True, 'message': 'Username already taken'})
+        return jsonify({'exists': True, 'message': 'Username is already Exist'})
     else:
         return jsonify({'exists': False})

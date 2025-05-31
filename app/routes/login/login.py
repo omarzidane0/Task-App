@@ -32,9 +32,9 @@ def login():
                     response.set_cookie("access_token" ,token ,secure=False, httponly=True )
                     return response
                 else:
-                    return render_template("login.html" , errors="Wrong password")
+                    return render_template("login.html" , errors="Wrong password or Username")
             else:
-                return render_template("login.html" , errors="Wrong UserName")
+                return render_template("login.html" , errors="Wrong password or Username")
         return render_template("login.html")
     else:
         try:
