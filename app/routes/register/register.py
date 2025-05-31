@@ -26,7 +26,7 @@ def register():
                 db.session.add(user)
                 db.session.commit()
             except Exception as e:
-                print(e)
+            
                 return render_template("register.html", errors="Error connecting to server , Please Try Again later")
             return redirect(url_for("login.login"))
         return render_template("register.html")
@@ -42,7 +42,6 @@ def register():
 @register_bp.route('/check_username', methods=['POST'])
 def check_username():
     data = request.get_json()
-    print(data)
     if not data or 'username' not in data:
         return jsonify({'error': 'No username provided'}), 400
     

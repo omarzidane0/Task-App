@@ -38,9 +38,7 @@ def login():
         return render_template("login.html")
     else:
         try:
-            print("trying to decode token")
-            print(decode_token(token))
-            print("decoded succsess")
+            decode_token(token)
             return redirect(url_for("home.home"))      
         except Exception as e:
             print("Decode error:", e)

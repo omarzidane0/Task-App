@@ -12,23 +12,23 @@ def home():
     token = request.cookies.get("access_token")
     # checking if is there a token?
     if token == None:
-        print("here1")
+       
         return redirect(url_for("login.login"))
     if token:
-        print("here")  
+  
         # checking if token is valid    
         try:
-            print("trying to decode token")
-            print(decode_token(token))
-            print("TTT")
+            
+            decode_token(token)
+        
             user_id = decode_token(token)['sub']
-            print(user_id)
+          
             user = users.query.get(user_id)
             #taking all tasks from the db
             task = tasks.query.filter_by(owner_id=user_id).all()
             # render the page
             if task:
-                print("ppo")
+               
                 return render_template("home.html" , taskat=task)
             else:
                 return  render_template("home.html" )
@@ -51,13 +51,13 @@ def addtask():
             return {'success' : False}
         if tasks.query.filter_by(owner_id=user_id , task_title= data['Task']['task_title'],task_description=data["Task"]["discrtiption"],due_at= data["Task"]["deadline"]).first():
             return {'success' : False}
-        print(data['Task']["task_title"])
+    
         now = datetime.now()
         formatted_time = now.strftime("%m/%d/%Y %I:%M:%p")
-        print(repr(data["Task"]["deadline"]))
+      
         try:
             dt = datetime.strptime(data["Task"]["deadline"], '%Y-%m-%dT%H:%M').strftime('%m/%d/%Y %I:%M %p')
-            print(dt)
+           
         except Exception as e:
             print("Exception" + e)
         task = tasks(user_id , data['Task']['task_title'] , data["Task"]["discrtiption"] ,formatted_time ,dt)
@@ -72,7 +72,7 @@ def addtask():
 def task_remove():
     data = request.get_json()
     token = request.cookies.get("access_token")
-    print(token)
+    
     # if there is no token
     if not token:
         return {"redirect":url_for("login.login") , "success":False} , 401

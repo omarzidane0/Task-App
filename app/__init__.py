@@ -9,13 +9,15 @@ from flask_wtf import CSRFProtect
 from flask_jwt_extended import create_access_token , decode_token , JWTManager
 from app.extension import csrf
 from app.extension import jwt
+from app.config import Config
 def createapp():
 
     app = Flask(__name__, template_folder="app/templates")
-    app.config["SECRET_KEY"] = "testing"
-    app.config['JWT_SECRET_KEY'] = 'your-secret'
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
+   # app.config["SECRET_KEY"] = "testing"
+    #app.config['JWT_SECRET_KEY'] = 'your-secret'
+    #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+    #app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
+    app.config.from_object(Config)
     db.init_app(app)
     jwt.init_app(app)
     csrf.init_app(app)
