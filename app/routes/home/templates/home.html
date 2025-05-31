@@ -1,0 +1,196 @@
+{%extends "base.html"%}
+{%block style%}
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .form-container {
+        direction: rtl;
+      max-width: 1100px;
+      margin: auto;
+      
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    thead {
+      background-color: #4a90e2;
+      color: white;
+    }
+    th, td {
+      padding: 16px 20px;
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f2f7fb;
+    }
+
+    tbody tr:hover {
+      background-color: #e2efff;
+      cursor: pointer;
+    }
+.time-left {
+  color: #dc3545;
+  font-weight: bold;
+}
+#tab{
+  padding: 0px;
+}
+
+/* لتقليل حجم النص إذا كان المحتوى كبير */
+td {
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+    #addTask{
+      margin-top: 20px;
+    }
+    #show_btn{
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+ #show_btn:hover {
+  background-color: #218838; /* لون أغمق شوي عند المرور */
+}
+#show_task{
+  display: none;
+}
+.update_btn{
+  width: 30%;
+  background-color: #FBC02D;
+  color: #f2f7fb;
+  border-radius: 4px;
+padding: 10px;
+}
+.del_btn{
+  width: 30%;
+  border-radius: 4px;
+   background-color: #28a745;
+   color:#f2f7fb ;
+   padding: 10px;
+}
+.update_btn,
+.del_btn {
+  display: inline-block;
+  margin: 5px; /* اختياري لو بدك مسافة إضافية */
+}
+.de{
+ background-color:  red !important;
+ color: white !important;
+}
+.active{
+  background-color: white !important;
+  color: #007bff !important;
+}
+  </style>
+  {%endblock%}
+  {%set btn2 = "Logout"%}
+{%block content%}
+  <div class="form-container" id="tab">
+   <input id="csrf" type="hidden" value="{{ csrf_token }}"/>
+
+    <table id="taskTable">
+      <thead>
+        <tr>
+          <th>العنوان</th>
+          <th>الوصف</th>
+          <th>وقت النهاية</th>
+          <th>وقت الانشاء</th>
+          <th>الوقت المتبقي</th>
+          <th>تعديل</th>
+        </tr>
+      </thead>
+      <tbody id="tasks">
+        {% if taskat %}
+        {% for task in taskat %}
+          <tr data-id="{{task.task_id}}">
+          <th>{{task.task_title}}</th>
+          <th>{{task.task_description}}</th>
+          <th class="time-left">{{task.due_at}}</th>
+          <th>{{task.created_at}}</th>
+          <th>1</th>
+          <th id="edit"><button class="update_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+</svg></button><button class="del_btn" color="#4CAF50;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+  <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"/>
+  <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"/>
+</svg></button>
+          </th>
+        </tr>      
+        {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <div class="form-container" id="addTask">
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary"id = "show_btn">Add A Task</button>
+            <div id="show_task">
+              <div class="form-floating mb-3">
+              <button type="button" id="btn-close"class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control rounded-3" id="task_title" placeholder="Do My Homework">
+              <label for="floatingInput">Task Title</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control rounded-3" id="task_description" placeholder="Password">
+              <label for="floatingPassword">Task Description</label>
+            </div>
+             <div class="form-floating mb-3"> 
+              <input type="datetime-local" id="deadline">
+            </div>
+            <div class="form-floating mb-3"> 
+            <div class="row"><span id="errMsg" style="color: red; padding:5px 15px;"></span></div>
+            </div>
+            <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary">Add A Task</button>
+            <hr class="my-4">
+            <small class="text-body-secondary">By clicking here , you are adding a task to your list</small>
+            </div>
+        
+  </div>
+
+  <script>
+
+
+  </script><script src="{{ url_for('home.static', filename='js/homescript.js') }}"></script>
+{%endblock%}

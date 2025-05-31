@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+    {% block style %}
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+#fake-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 15px;
+ 
+  overflow: hidden;
+}
+.wrapper {
+  max-width: 600px;
+  width: 100%;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+}
+.wrapper .title {
+  height: 120px;
+  background: #0d6efd;
+  border-radius: 5px 5px 0 0;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper form {
+  padding: 25px 35px;
+}
+.wrapper form .row {
+  height: 60px;
+  margin-top: 15px;
+  position: relative;
+}
+.wrapper form .row input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding-left: 70px;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+form .row input:focus {
+  border-color: var(--bs-nav-pills-link-active-bg);
+}
+form .row input::placeholder {
+  color: #999;
+}
+.wrapper form .row i {
+  position: absolute;
+  width: 55px;
+  height: 100%;
+  color: #fff;
+  font-size: 22px;
+  background:#0d6efd;
+  border: 1px solid #0d6efd;
+  border-radius: 5px 0 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper form .pass {
+  margin-top: 12px;
+}
+.wrapper form .pass a {
+  color: #0d6efd;
+  font-size: 17px;
+  text-decoration: none;
+}
+.wrapper form .pass a:hover {
+  text-decoration: underline;
+}
+.wrapper form .button input {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  padding-left: 0px;
+  background: #0d6efd;
+  border: 1px solid #0d6efd;
+  cursor: pointer;
+}
+form .button input:hover {
+  background: #0d6efd;
+}
+.wrapper form .signup-link {
+  text-align: center;
+  margin-top: 45px;
+  font-size: 17px;
+}
+.wrapper form .signup-link a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+form .signup-link a:hover {
+  text-decoration: underline;
+}
+    </style>
+    {%endblock%} 
+    {% set btn1 = "register"%}
+    
+    {%block content %}
+    <div id="fake-body">
+      <div class="wrapper">
+    <div class="title"><span>Sign Up Form</span></div>
+    
+    <form id="registerForm"name="register" action="#" method="post">
+     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div class="row">
+        
+        <i class="fas fa-user"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at" viewBox="0 0 16 16">
+  <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+  <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648m-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z"/>
+</svg></i>
+        <input type="text"id="username" name="username"placeholder="Email or Phone" required />
+                   
+      </div>
+         <div><span id="usernameMsg" style="color: red; display:none; padding:5px 15px;">qwdqw</span></div>
+      <div class="row">
+        <i class="fas fa-lock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
+  <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1"/>
+</svg></i>
+        <input type="password"id="password" name="password" placeholder="Password" required />
+      </div>
+            <div class="row">
+        <i class="fas fa-lock"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
+  <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1"/>
+</svg></i>
+        <input type="password" placeholder="Re-Password" required />
+      </div>
+               <div class="row"><span id="errMsg" style="color: red; padding:5px 15px;">{{errors}}</span></div>
+      <div class="row button">
+        <input type="submit" value="Login" />
+      </div>
+    
+      <div class="signup-link">Already A Member? <a href="#">LogIn now</a></div>
+    </form>
+  </div></div>
+    {%endblock%}
+
+{%block scripts%}
+
+<script>
+    const usernameInput = document.getElementById("username");
+    const email = document.getElementById('password');
+    const usernameMsg = document.getElementById('usernameMsg');
+    const errbox = document.getElementById("errMsg");
+    let username_bool = false;
+    // نراقب التغيير على حقل اسم المستخدم
+    usernameInput.addEventListener('input', () => {
+        const username = usernameInput.value.trim();
+        if (username.length === 0) {
+            usernameMsg.textContent = '';
+            return;
+        }
+
+        fetch('/check_username', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: username})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.exists){
+                username_bool = true
+                usernameMsg.textContent = data.message;
+                console.log(data.message)
+                usernameMsg.style.display = 'flex'
+            } else {
+                username_bool = false
+                usernameMsg.textContent = '';
+
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registerForm');
+      form.addEventListener('submit', function(event) {
+      
+
+        
+
+
+        if (username.value.trim() === '' || email.value.trim() === '') {
+            errbox.textContent = "Please fill all fields";
+            errbox.style.display = "flex"
+            event.preventDefault();
+        }else if(username_bool){
+            errbox.textContent = "User Name is already Exist";
+            errbox.style.display = "flex"
+            event.preventDefault();
+        }
+
+      });
+    });
+  
+</script><script src="{{url_for('register.static' , filename='js/register_script.js')}}"
+{%endblock%}    
