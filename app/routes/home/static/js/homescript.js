@@ -1,4 +1,5 @@
-    const table = document.getElementById("taskTable")
+// Getting Elments
+   const table = document.getElementById("taskTable")
     const tsk_show_btn = document.getElementById("show_btn")
     const add_task_form = document.getElementById("show_task")
     const close_btn  =  document.getElementById("btn-close")
@@ -7,6 +8,7 @@
     const task_description = document.getElementById("task_description")
     const deadline = document.getElementById("deadline")
     const alert_err = document.getElementById("errMsg")
+// switching betwean task btn when u click it
     tsk_show_btn.addEventListener("click" , function(){
       tsk_show_btn.style.display = "none"
       add_task_form.style.display = "block"
@@ -15,7 +17,7 @@
       tsk_show_btn.style.display = "block"
       add_task_form.style.display = "none"
     });
-
+// checking that u are filling all the fields
     submit_add_btn.addEventListener("click", function(){
         if(task_title.value.trim() === "" || task_description.value.trim() === "" || deadline.value === null){
             alert_err.textContent = "Please Fill All The Fields"
@@ -24,7 +26,10 @@
         post_data()
         }
 
-    })   
+    })
+//fetch to post data in the data-base[server side] 
+// then creating the row 
+// add the row to the tabel   
     function post_data(){
           
                 fetch("/addtask",{
@@ -58,7 +63,7 @@
                 row.appendChild(time_remaming)
                 row.appendChild(edit)
                 table_task.appendChild(row)
-                // creating the update button
+             
               update_btn = document.createElement("button")
               update_btn.setAttribute("class" , "update_btn")
               update_btn.innerHTML = `
@@ -66,7 +71,7 @@
         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
         </svg>
               `;
-              //createing the Don or Delete Button
+             
               done_btn = document.createElement("button")
               done_btn.setAttribute("class" , "del_btn")
               done_btn.innerHTML = `
@@ -82,7 +87,7 @@
                 task_title.value = ""
                 task_description.value = ""
                 deadline.value = ""
-           
+              
               calculate_time(time_remaming , data.due_time)
               }
             else{
@@ -90,6 +95,8 @@
             }
           })
         }
+// time remaming [th] 
+// a function to make timer diffrence betwean the due-time - now time
 function calculate_time(th ,due_time){
 
     const intervalId = setInterval(() => {
@@ -97,11 +104,11 @@ function calculate_time(th ,due_time){
     const dt = parseCustomDate(due_time)
 
 
-    const diffMs = dt - ct; // الفرق بالمللي ثانية
+    const diffMs = dt - ct; 
     
     if (diffMs <= 0) {
       th.textContent = "انتهى الوقت!";
-      clearInterval(intervalId); // وقف التحديث لأنه انتهى الوقت
+      clearInterval(intervalId); 
       return;
     }
 
@@ -113,26 +120,17 @@ function calculate_time(th ,due_time){
       `${hours}H ${minutes}M ${seconds}S`;
     } , 1000);
 }
+// a function to convert date from this 05/31/2025 01:23:AM to be able to calculate the diff
 function parseCustomDate(dateStr) {
   dateStr = dateStr.replace(/:(AM|PM)$/i, ' $1');
-  // الآن التاريخ بصيغة قابلة للقراءة
+  
   return new Date(dateStr);
 }
 
-/*document.querySelectorAll('.del_btn').forEach(button =>{
-  console.log("test")
-  button.addEventListener("click", function(){
-  var tr = button.closest("tr")
-  const num_row = tr.rowIndex-1
-  var em = tr.getAttribute("data-id")
-    var table = document.getElementById("tasks")
-      table.deleteRow(index=num_row)
-  })
-})
-*/
+// when u click the delete or done btn
 const tables = document.getElementById('tasks')
 tables.addEventListener("click", function(e) {
-  // تحقق إذا العنصر المضغوط عليه زر عنده الكلاس del_btn
+ 
   if (e.target.classList.contains('del_btn')) {
     const tr = e.target.closest('tr');
     const id = tr.getAttribute('data-id');
@@ -140,7 +138,7 @@ tables.addEventListener("click", function(e) {
     remove_task(id ,tr)
   }
 });
-
+//fetch delte method to delte the task from the data base [server side]
 function remove_task(id, tr) {
   const csrf = document.getElementById("csrf").value;
   fetch("/remove_task", {
@@ -174,6 +172,7 @@ function remove_task(id, tr) {
 }
 
 // logout btn
+// fetch to logout return to the login page
 const log_out_btn = document.getElementById("btn2")
 log_out_btn.addEventListener("click" , function(){
   const csrf = document.getElementById("csrf").value;
@@ -194,19 +193,16 @@ log_out_btn.addEventListener("click" , function(){
       }
   })
 })
-/// testing time remaming function
+
+// time remaming calculations
 const tb = document.getElementById("tasks")
 const rows = tb.querySelectorAll("tr");
 rows.forEach((row, index) => {
   const ths = row.querySelectorAll("th");
-  // إذا الصف يحتوي على 2 th (يعني ليس الصف الرئيسي)
+
     calculate_time(ths[4] , ths[2].textContent )
   if (ths.length === 2) {
     const newTh = document.createElement("th");
-
-    // أضف المعلومة اللي تبغاها (تقدر تغيرها بناءً على البيانات السابقة)
-    //newTh.textContent = "معلومة ثالثة";
-    // أضفها للصف
     row.appendChild(newTh);
   }
 });

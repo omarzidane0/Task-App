@@ -12,19 +12,24 @@ login_bp = Blueprint("login" , __name__ , template_folder='templates' , static_f
 @login_bp.route("/login" , methods=["POST","GET"])
 def login():
     token = request.cookies.get("access_token")
+    # checking that the person alredy logged out 
+    # the person dosent have token
     if not token:
+        # make suer that its a post req
         if request.method =="POST":
             username = request.form.get("username")
             password = request.form.get("password")
-    
+            # checking that inputs are full
             if username == "" or password =="":
                 return render_template("login.html" , errors="please fill all the fields")
-            if users.query.filter_by(user_name=username).first() and username == users.query.filter_by(user_name=username).first().user_name:
-                if password == users.query.filter_by(user_name=username).first().password:
-                    token = createtoken(users.query.filter_by(user_name=username).first().user_id)
+            user = users.query.filter_by(user_name=username).first()
+            # if user is exist 
+            if user and username == user.user_name:
+                #checking the password
+                if password == user.password:
+                    token = createtoken(user.user_id)
                     response = make_response(redirect(url_for("home.home")))
                     response.set_cookie("access_token" ,token ,secure=False, httponly=True )
-                    print("تم إنشاء التوكن وإرساله بالكوكيز")
                     return response
                 else:
                     return render_template("login.html" , errors="Wrong password")
@@ -42,7 +47,7 @@ def login():
             response = make_response(redirect(url_for('login.login')))
             response.delete_cookie("access_token")
             return response
-       
+ #log out      
 @login_bp.route("/logout" , methods=["POST"])
 def logout():
         token = request.cookies.get("access_token")
