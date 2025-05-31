@@ -83,20 +83,22 @@
                 task_description.value = ""
                 deadline.value = ""
            
-              calculate_time(time_remaming , data.created_at , data.due_time)
+              calculate_time(time_remaming , data.due_time)
               }
             else{
               alert_err.textContent = "Error Adding Data Please try again later"
             }
           })
         }
-function calculate_time(th, created_at ,due_time){
-    const ct = parseCustomDate(created_at)
+function calculate_time(th ,due_time){
+
+    const intervalId = setInterval(() => {
+          const ct = new Date()
     const dt = parseCustomDate(due_time)
-    console.log(ct)
+
 
     const diffMs = dt - ct; // الفرق بالمللي ثانية
-    console.log(diffMs)
+    
     if (diffMs <= 0) {
       th.textContent = "انتهى الوقت!";
       clearInterval(intervalId); // وقف التحديث لأنه انتهى الوقت
@@ -108,7 +110,8 @@ function calculate_time(th, created_at ,due_time){
     const seconds = Math.floor((diffMs / 1000) % 60);
 
     th.textContent = 
-      `الوقت المتبقي: ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+      `${hours}H ${minutes}M ${seconds}S`;
+    } , 1000);
 }
 function parseCustomDate(dateStr) {
   dateStr = dateStr.replace(/:(AM|PM)$/i, ' $1');
@@ -185,8 +188,25 @@ log_out_btn.addEventListener("click" , function(){
   .then(data =>{
       if(data.success){
           console.log("done log out")
+          window.location.href = "/login";
       }else{
           console.log("error happend")
       }
   })
 })
+/// testing time remaming function
+const tb = document.getElementById("tasks")
+const rows = tb.querySelectorAll("tr");
+rows.forEach((row, index) => {
+  const ths = row.querySelectorAll("th");
+  // إذا الصف يحتوي على 2 th (يعني ليس الصف الرئيسي)
+    calculate_time(ths[4] , ths[2].textContent )
+  if (ths.length === 2) {
+    const newTh = document.createElement("th");
+
+    // أضف المعلومة اللي تبغاها (تقدر تغيرها بناءً على البيانات السابقة)
+    //newTh.textContent = "معلومة ثالثة";
+    // أضفها للصف
+    row.appendChild(newTh);
+  }
+});
